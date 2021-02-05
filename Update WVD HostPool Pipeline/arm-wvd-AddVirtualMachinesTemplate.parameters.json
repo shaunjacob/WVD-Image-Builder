@@ -27,13 +27,13 @@
             "value": "$(domainpassword)"
         },
         "hostpoolResourceGroup": {
-            "value": ""
+            "value": "wvd-rg"
         },
         "hostpoolProperties": {
             "value": {}
         },
         "hostpoolLocation": {
-            "value": ""
+            "value": "australiaeast"
         },
         "createAvailabilitySet": {
             "value": false
@@ -99,7 +99,7 @@
             "value": {}
         },
         "deploymentId": {
-            "value": "91671ab3-150a-4b03-9cca-5b6b441d116a"
+            "value": ""
         },
         "apiVersion": {
             "value": "2019-12-10-preview"

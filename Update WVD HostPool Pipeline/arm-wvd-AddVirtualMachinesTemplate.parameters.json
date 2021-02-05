@@ -39,7 +39,7 @@
             "value": false
         },
         "vmInitialNumber": {
-            "value": 1
+            "value": 0
         },
         "vmResourceGroup": {
             "value": "WVD-RG"

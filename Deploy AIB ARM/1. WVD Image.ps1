@@ -11,7 +11,7 @@ $sigGalleryName = '/subscriptions/b415de9f-3b82-4533-8637-f8899cc26583/resourceG
 
 
 $templateUrl="https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/solutions/14_Building_Images_WVD/armTemplateWVD.json"
-$templateFilePath = ".\E2\armTemplateWVDDaniel.json"
+$templateFilePath = ".\E2\armTemplateWVD.json"
 
 Invoke-WebRequest -Uri $templateUrl -OutFile $templateFilePath -UseBasicParsing
 

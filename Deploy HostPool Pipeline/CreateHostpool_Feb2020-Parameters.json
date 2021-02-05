@@ -15,7 +15,7 @@
             "value": "Created through the WVD extension"
         },
         "location": {
-            "value": "australiaeast"
+            "value": "eastus"
         },
         "validationEnvironment": {
             "value": false

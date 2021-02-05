@@ -6,9 +6,9 @@ import-module az.desktopvirtualization
 import-module az.network
 import-module az.compute
 
-$azureSubscriptionID = "your-wvd-sub-id"
-$resourceGroupName = "rg-wvd-Pooled-desktop"
-$existingWVDHostPoolName = "HostPool-Test"
+$azureSubscriptionID = "b415de9f-3b82-4533-8637-f8899cc26583"
+$resourceGroupName = "wvd-rg"
+$existingWVDHostPoolName = "WVD-SIG"
 
 
 #Obtain RdsRegistrationInfotoken

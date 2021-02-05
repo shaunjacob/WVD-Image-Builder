@@ -1,111 +1,87 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "nestedTemplatesLocation": {
-            "value": "https://raw.githubusercontent.com/Azure/RDS-Templates/master/ARM-wvd-templates/nestedtemplates/"
-        },
         "artifactsLocation": {
-            "value": "https://raw.githubusercontent.com/Azure/RDS-Templates/master/ARM-wvd-templates/DSC/Configuration.zip"
+            "value": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_12-15-2020.zip"
+        },
+        "nestedTemplatesLocation": {
+            "value": "https://catalogartifact.azureedge.net/publicartifacts/Microsoft.Hostpool-ARM-1.0.18-preview/"
         },
         "hostpoolName": {
-            "value": "" // TODO: Fill in parameter value
+            "value": "WVD-SIG"
         },
         "hostpoolToken": {
-            "value": "" // TODO: Fill in parameter value
+            "value": "$(RdsRegistrationInfotoken)"
+        },
+        "vmAdministratorAccountUsername": {
+            "value": "hostadmin"
+        },
+        "vmAdministratorAccountPassword": {
+            "value": "$(domainpassword)"
+        },
+        "administratorAccountUsername": {
+            "value": "sjadmin@shaunjacob.com"
+        },
+        "administratorAccountPassword": {
+            "value": "$(domainpassword)"
         },
         "hostpoolResourceGroup": {
-            "value": ""
-        },
-        "hostpoolLocation": {
             "value": ""
         },
         "hostpoolProperties": {
             "value": {}
         },
-        "vmTemplate": {
+        "hostpoolLocation": {
             "value": ""
-        },
-        "administratorAccountUsername": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "administratorAccountPassword": {
-            "value": "" // TODO: Fill in parameter value
         },
         "createAvailabilitySet": {
-            "value": false // TODO: Fill in parameter value
-        },
-        "vmResourceGroup": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "vmLocation": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "vmSize": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "vmInitialNumber": {
-            "value": 0 // TODO: Fill in parameter value
-        },
-        "vmNumberOfInstances": {
-            "value": 0 // TODO: Fill in parameter value
-        },
-        "vmNamePrefix": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "vmImageType": {
-            "value": "Gallery"
-        },
-        "vmGalleryImageOffer": {
-            "value": ""
-        },
-        "vmGalleryImagePublisher": {
-            "value": ""
-        },
-        "vmGalleryImageSKU": {
-            "value": ""
-        },
-        "vmImageVhdUri": {
-            "value": ""
-        },
-        "vmCustomImageSourceId": {
-            "value": ""
-        },
-        "vmDiskType": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "vmUseManagedDisks": {
-            "value": false // TODO: Fill in parameter value
-        },
-        "storageAccountResourceGroupName": {
-            "value": ""
-        },
-        "existingVnetName": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "existingSubnetName": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "virtualNetworkResourceGroupName": {
-            "value": "" // TODO: Fill in parameter value
-        },
-        "usePublicIP": {
             "value": false
         },
-        "publicIpAddressSku": {
-            "value": "Basic"
+        "vmInitialNumber": {
+            "value": 1
         },
-        "publicIpAddressType": {
-            "value": "Dynamic"
+        "vmResourceGroup": {
+            "value": "WVD-RG"
+        },
+        "vmLocation": {
+            "value": "australiaeast"
+        },
+        "vmSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "vmNumberOfInstances": {
+            "value": 2
+        },
+        "vmNamePrefix": {
+            "value": "WVD-SH-SIG"
+        },
+        "vmImageType": {
+            "value": "CustomImage"
+        },
+        "vmDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "vmUseManagedDisks": {
+            "value": true
+        },
+        "existingVnetName": {
+            "value": "WVD-RG-vnet"
+        },
+        "existingSubnetName": {
+            "value": "default"
+        },
+        "virtualNetworkResourceGroupName": {
+            "value": "WVD-RG"
         },
         "createNetworkSecurityGroup": {
             "value": false
         },
-        "networkSecurityGroupId": {
+        "domain": {
             "value": ""
         },
-        "networkSecurityGroupRules": {
-            "value": []
+        "ouPath": {
+            "value": ""
         },
         "availabilitySetTags": {
             "value": {}
@@ -116,9 +92,6 @@
         "networkSecurityGroupTags": {
             "value": {}
         },
-        "publicIPAddressTags": {
-            "value": {}
-        },
         "virtualMachineTags": {
             "value": {}
         },
@@ -126,16 +99,13 @@
             "value": {}
         },
         "deploymentId": {
-            "value": ""
+            "value": "91671ab3-150a-4b03-9cca-5b6b441d116a"
         },
         "apiVersion": {
             "value": "2019-12-10-preview"
         },
-        "ouPath": {
-            "value": ""
-        },
-        "domain": {
-            "value": ""
+        "vmCustomImageSourceId": {
+            "value": "/subscriptions/b415de9f-3b82-4533-8637-f8899cc26583/resourceGroups/AIB-RG/providers/Microsoft.Compute/galleries/SJSIG/images/SJDemoImage2"
         }
     }
 }

@@ -128,7 +128,7 @@
         "workspaceResourceGroup": {
             "value": "WVD-RG"
         },
-        "workspaceName": {
+        "workSpaceName": {
             "value": "WVD"
         },
         "workspaceLocation": {

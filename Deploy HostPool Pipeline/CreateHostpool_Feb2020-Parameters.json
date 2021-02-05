@@ -15,7 +15,7 @@
             "value": "Created through the WVD extension"
         },
         "location": {
-            "value": "eastus"
+            "value": "australiaeast"
         },
         "validationEnvironment": {
             "value": false
@@ -42,13 +42,13 @@
             "value": "hostadmin"
         },
         "vmAdministratorAccountPassword": {
-            "value": null
+            "value": "$(domainpassword)"
         },
         "administratorAccountUsername": {
             "value": "sjadmin@shaunjacob.com"
         },
         "administratorAccountPassword": {
-            "value": null
+            "value": "$(domainpassword)"
         },
         "createAvailabilitySet": {
             "value": true

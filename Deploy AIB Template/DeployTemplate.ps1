@@ -19,12 +19,12 @@ $destPublisher = 'Microsoft'
 $destOffer = 'en-GB'
 
 #Image definition version
-$version = '1.0.1'
+$version = '1.0.5'
 
 #Staging VM size
 $vmSize = 'Standard_D2_v2'
 
-. '.\Deploy AIB ARM\Get-AzureImageInfo.ps1'
+. .\Get-AzureImageInfo.ps1
 $info = Get-AzureImageInfo -Location $location
 
 $Sku = $info.sku

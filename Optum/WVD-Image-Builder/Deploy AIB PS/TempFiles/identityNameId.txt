@@ -1,0 +1,1 @@
+/subscriptions/b415de9f-3b82-4533-8637-f8899cc26583/resourcegroups/AIB-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/SJAIBIdentity

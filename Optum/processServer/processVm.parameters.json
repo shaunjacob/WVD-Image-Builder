@@ -1,0 +1,90 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"vmSku": {
+			"value": "Standard_F16s_v2"
+		},
+		"windowsOsVersion": {
+			"value": "2019-Datacenter"
+		},
+		"vmCount": {
+			"value": "1"
+		},
+		"vmPrefix": {
+			"value": "ProcServ"
+		},
+		"vNetRgName": {
+			"value": "database-testing"
+		},
+		"vNetName": {
+			"value": "vnet-mednet"
+		},
+		"vNetSubnetName": {
+			"value": "ProcessingSubnet"
+		},
+		"adminUsername": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "process-server-local-admin-user"
+			}
+		},
+		"adminPwd": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "process-server-local-admin-pass"
+			}
+		},
+    "customScriptExtensionContainer": {
+      "value": "https://nhallstorageaccount.blob.core.windows.net/assets/"
+    },
+    "customScriptExtensionSASToken": {
+      "value": "?sp=r&st=2021-02-15T20:05:06Z&se=2021-02-20T04:05:06Z&spr=https&sv=2019-12-12&sr=b&sig=vKrsLUDt4WQi6FFnFp17I%2F3S9bK9vPrHhiboqBFuQTw%3D"
+    },
+    "customScriptExtensionName": {
+      "value": "process_server_extension.ps1"
+    },
+		"domainJoinUser": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "adjoin-username"
+			}
+		},
+		"domainJoinUserPassword": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "adjoin-password"
+			}
+		},
+		"domainFqdn": {
+			"value": "mednetcloudpoc.com"
+		},
+    "OSImageId": {
+      "value": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/AIB-RG/providers/Microsoft.Compute/galleries/OptumServeSIG/images/OptumServe.ProcessServer.2019-Datacenter"
+    },
+    "processServerUsername": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "process-server-username"
+			}
+    },
+    "processServerPassword": {
+			"reference": {
+				"keyVault": {
+          "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+				},
+				"secretName": "process-server-password"
+			}
+    }
+	}
+}

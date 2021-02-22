@@ -1,0 +1,144 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "SrcSKU": {
+      "defaultValue": "20h2-evd-o365pp",
+      "type": "String"
+    },
+    "SrcOffer": {
+      "defaultValue": "office-365",
+      "type": "String"
+    },
+    "SrcPublisher": {
+      "defaultValue": "MicrosoftWindowsDesktop",
+      "type": "String"
+    },
+    "imageId": {
+      "type": "String"
+    },
+    "identityId": {
+      "type": "String"
+    },
+    "Version": {
+      "defaultValue": "",
+      "type": "String"
+    },
+    "vmSize": {
+      "defaultValue": "Standard_D2_v2",
+      "type": "String"
+    },
+    "replicationRegions": {
+      "defaultValue": "centralus",
+      "type": "String"
+    },
+    "ArtifactURL": {
+      "defaultValue": "",
+      "type": "String"
+    }
+  },
+  "variables": {
+    "combined": "[concat(parameters('SrcPublisher'),'.',parameters('SrcOffer'),'.',parameters('SrcSKU'))]",
+    "withVersion": "[concat(parameters('imageId'), '/versions/', parameters('Version'))]",
+    "imageDefStr": "[ if(empty(parameters('Version')), parameters('imageId'), variables('withVersion')) ]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.VirtualMachineImages/imageTemplates",
+      "apiVersion": "2020-02-14",
+      "name": "[variables('combined')]",
+      "location": "eastus",
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[parameters('identityId')]": {
+
+          }
+        }
+      },
+      "properties": {
+        "vmProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "source": {
+          "offer": "[parameters('SrcOffer')]",
+          "publisher": "[parameters('SrcPublisher')]",
+          "sku": "[parameters('SrcSKU')]",
+          "type": "PlatformImage",
+          "version": "latest"
+        },
+        "customize": [
+          {
+            "type": "PowerShell",
+            "name": "installFsLogix",
+            "runElevated": true,
+            "runAsSystem": true,
+            "scriptUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/solutions/14_Building_Images_WVD/0_installConfFsLogix.ps1"
+          },
+          {
+            "type": "PowerShell",
+            "name": "OptumServeCustomizations",
+            "runElevated": true,
+            "inline": [
+              "# <ArtifactURL> is string replaced during build time",
+              "$winui_url = \"<ArtifactURL>\"",
+              "$output_file = \"C:\\assets\\LHI.MEDnet.zip\"",
+              "$expand_dir = \"C:\\Program Files (x86)\\LHI.MEDnet\"",
+              "",
+              "Set-TimeZone -Name \"Central Standard Time\"",
+              "",
+              "if (! (Test-Path -LiteralPath C:\\assets)) {",
+              "    mkdir C:\\assets",
+              "}",
+              "",
+              "if (! (Test-Path -LiteralPath $output_file)) {",
+              "    Invoke-WebRequest -Uri $winui_url -OutFile $output_file",
+              "}",
+              "",
+              "if (! (Test-Path -LiteralPath $expand_dir)) {",
+              "  mkdir \"$expand_dir\"",
+              "}",
+              "",
+              "Expand-Archive -Path $output_file -DestinationPath $expand_dir -Force",
+              "",
+              "##########################################",
+              "# SQL Management Studio",
+              "##########################################",
+              "$ssms_url = 'https://aka.ms/ssmsfullsetup'",
+              "$ssms_outfile = 'C:\\assets\\SSMS-Setup-ENU.exe'",
+              "$ssms_install_args = '/Install /Quiet /Norestart'",
+              "",
+              "Invoke-WebRequest -Uri $ssms_url -outfile $ssms_outfile",
+              "& $ssms_outfile $ssms_install_args.split(' ')"
+            ]
+          },
+          {
+            "type": "WindowsUpdate",
+            "searchCriteria": "IsInstalled=0",
+            "filters": [
+              "exclude:$_.Title -like '*Preview*'",
+              "include:$true"
+            ],
+            "updateLimit": 40
+          }
+        ],
+        "distribute": [
+          {
+            "artifactTags": {
+              "Project": "WinUI",
+              "Author": "Nicholas Hall"
+            },
+            "excludeFromLatest": false,
+            "galleryImageId": "[variables('imageDefStr')]",
+            "replicationRegions": [
+              "[parameters('replicationRegions')]"
+            ],
+            "runOutputName": "[concat( 'runOutput', variables('combined'))]",
+            "type": "SharedImage"
+          }
+        ],
+        "buildTimeoutInMinutes": 120
+      }
+    }
+  ]
+}

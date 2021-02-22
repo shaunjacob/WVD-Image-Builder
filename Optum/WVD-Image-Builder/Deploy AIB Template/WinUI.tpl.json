@@ -1,0 +1,98 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "SrcSKU": {
+            "defaultValue": "20h2-evd-o365pp",
+            "type": "String"
+        },
+        "SrcOffer": {
+            "defaultValue": "office-365",
+            "type": "String"
+        },
+        "SrcPublisher": {
+            "defaultValue": "MicrosoftWindowsDesktop",
+            "type": "String"
+        },
+        "imageId": {
+            "type": "String"
+        },
+        "identityId": {
+            "type": "String"
+        },
+        "Version": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "vmSize": {
+            "defaultValue": "Standard_D2_v2",
+            "type": "String"
+        },
+        "replicationRegions": {
+            "defaultValue": "centralus",
+            "type": "String"
+        }
+    },
+    "variables": {
+        "combined":"[concat(parameters('SrcPublisher'),'.',parameters('SrcOffer'),'.',parameters('SrcSKU'))]",
+        "withVersion": "[concat(parameters('imageId'), '/versions/', parameters('Version'))]",
+        "imageDefStr": "[ if(empty(parameters('Version')), parameters('imageId'), variables('withVersion')) ]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2020-02-14",
+            "name": "[variables('combined')]",
+            "location": "eastus",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[parameters('identityId')]": {}
+                }
+            },
+            "properties": {
+                "vmProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "source": {
+                    "offer": "[parameters('SrcOffer')]",
+                    "publisher": "[parameters('SrcPublisher')]",
+                    "sku": "[parameters('SrcSKU')]",
+                    "type": "PlatformImage",
+                    "version": "latest"
+                },
+                "customize": [
+                    {
+                        "type": "PowerShell",
+                        "name": "installFsLogix",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/solutions/14_Building_Images_WVD/0_installConfFsLogix.ps1"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "OptumServeCustomizations",
+                        "runElevated": true,
+                        "scriptUri": "https://nhallstorageaccount.blob.core.windows.net/assets/customize.ps1?sp=r&st=2021-02-08T17:46:58Z&se=2021-03-02T01:46:58Z&spr=https&sv=2019-12-12&sr=b&sig=tz4erQAb%2BplWW4Cn38XYKQ%2F5%2BT%2BotQ4zHcK2UP7Vimo%3D"
+                    }             
+                ],
+                "distribute": [
+                    {
+                        "artifactTags": {
+                            "Project": "WinUI",
+                            "Author": "Nicholas Hall"
+                        },
+                        "excludeFromLatest": false,
+                        "galleryImageId": "[variables('imageDefStr')]",
+                        "replicationRegions": [
+                            "[parameters('replicationRegions')]"
+                        ],
+                        "runOutputName": "[concat( 'runOutput', variables('combined'))]",
+                        "type": "SharedImage"
+                    }
+                ],
+                "buildTimeoutInMinutes": 120
+            }
+        }
+    ]
+}

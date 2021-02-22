@@ -1,0 +1,1 @@
+/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourcegroups/AIB-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/OSAIBIdentity

@@ -1,0 +1,131 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "artifactsLocation": {
+            "value": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_12-15-2020.zip"
+        },
+        "nestedTemplatesLocation": {
+            "value": "https://catalogartifact.azureedge.net/publicartifacts/Microsoft.Hostpool-ARM-1.0.18-preview/"
+        },
+        "hostpoolName": {
+            "value": "OptumServe-Test"
+        },
+        "hostpoolToken": {
+            "value": "$(RdsRegistrationInfotoken)"
+        },
+        "vmAdministratorAccountUsername": {
+          "reference": {
+            "keyVault": {
+              "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+            },
+            "secretName": "wvd-local-admin-username"
+          }
+        },
+        "vmAdministratorAccountPassword": {
+          "reference": {
+            "keyVault": {
+              "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+            },
+            "secretName": "wvd-local-admin-password"
+          }
+        },
+        "administratorAccountUsername": {
+          "reference": {
+            "keyVault": {
+              "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+            },
+            "secretName": "adjoin-username"
+          }
+        },
+        "administratorAccountPassword": {
+          "reference": {
+            "keyVault": {
+              "id": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/WVD-RG/providers/Microsoft.KeyVault/vaults/OptumServe-WVD-KVT"
+            },
+            "secretName": "adjoin-password"
+          }
+        },
+        "hostpoolResourceGroup": {
+            "value": "WVD-RG"
+        },
+        "hostpoolProperties": {
+            "value": {}
+        },
+        "hostpoolLocation": {
+            "value": "centralus"
+        },
+        "createAvailabilitySet": {
+            "value": true
+        },
+        "vmInitialNumber": {
+            "value": 0
+        },
+        "vmResourceGroup": {
+            "value": "WVD-RG"
+        },
+        "vmLocation": {
+            "value": "centralus"
+        },
+        "vmSize": {
+            "value": "Standard_D16d_v4"
+        },
+        "vmNumberOfInstances": {
+            "value": 2
+        },
+        "vmNamePrefix": {
+            "value": "WVD-SH-SIG"
+        },
+        "vmImageType": {
+            "value": "CustomImage"
+        },
+        "vmDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "vmUseManagedDisks": {
+            "value": true
+        },
+        "existingVnetName": {
+            "value": "vnet-mednet"
+        },
+        "existingSubnetName": {
+            "value": "WVD"
+        },
+        "virtualNetworkResourceGroupName": {
+            "value": "database-testing"
+        },
+        "createNetworkSecurityGroup": {
+            "value": false
+        },
+        "domain": {
+            "value": ""
+        },
+        "ouPath": {
+            "value": ""
+        },
+        "availabilitySetTags": {
+            "value": {}
+        },
+        "networkInterfaceTags": {
+            "value": {}
+        },
+        "networkSecurityGroupTags": {
+            "value": {}
+        },
+        "virtualMachineTags": {
+            "value": {}
+        },
+        "imageTags": {
+            "value": {}
+        },
+        "deploymentId": {
+            "value": ""
+        },
+        "apiVersion": {
+            "value": "2019-12-10-preview"
+        },
+        "vmCustomImageSourceId": {
+            "value": "/subscriptions/9c40734a-50b6-4900-8110-23f052b0a1c4/resourceGroups/AIB-RG/providers/Microsoft.Compute/galleries/OptumServeSIG/images/OptumServe.en-US.20h2-evd-o365pp"
+        }
+    }
+}
